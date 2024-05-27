@@ -32,9 +32,10 @@ export function setActiveInstance(vm: Component) {
   }
 }
 
+// 这里主要是初始化一些数据
+// 给parent、root赋值
 export function initLifecycle(vm: Component) {
   const options = vm.$options
-
   // locate first non-abstract parent
   let parent = options.parent
   if (parent && !options.abstract) {
@@ -50,6 +51,7 @@ export function initLifecycle(vm: Component) {
   vm.$children = []
   vm.$refs = {}
 
+  // 初始化一些状态
   vm._provided = parent ? parent._provided : Object.create(null)
   vm._watcher = null
   vm._inactive = null
@@ -59,7 +61,9 @@ export function initLifecycle(vm: Component) {
   vm._isBeingDestroyed = false
 }
 
+// 生命周期混入函数
 export function lifecycleMixin(Vue: typeof Component) {
+  // 更新
   Vue.prototype._update = function (vnode: VNode, hydrating?: boolean) {
     const vm: Component = this
     const prevEl = vm.$el
@@ -70,9 +74,11 @@ export function lifecycleMixin(Vue: typeof Component) {
     // based on the rendering backend used.
     if (!prevVnode) {
       // initial render
+      // 最初的渲染
       vm.$el = vm.__patch__(vm.$el, vnode, hydrating, false /* removeOnly */)
     } else {
       // updates
+      // 更新
       vm.$el = vm.__patch__(prevVnode, vnode)
     }
     restoreActiveInstance()
@@ -96,6 +102,7 @@ export function lifecycleMixin(Vue: typeof Component) {
     }
     // updated hook is called by the scheduler to ensure that children are
     // updated in a parent's updated hook.
+    // 更新勾子被调度器调用，以确保子勾子在父级中更新
   }
 
   Vue.prototype.$forceUpdate = function () {
@@ -217,6 +224,10 @@ export function mountComponent(
   // we set this to vm._watcher inside the watcher's constructor
   // since the watcher's initial patch may call $forceUpdate (e.g. inside child
   // component's mounted hook), which relies on vm._watcher being already defined
+
+  // 设置为vm._watcher在观察器的构造函数中
+  // 因为观察器的初始补丁可能调用$forceUpdate(例如在子组件的挂载钩子中)，
+  // 它依赖于vm._watchr已经定义
   new Watcher(
     vm,
     updateComponent,
@@ -224,9 +235,11 @@ export function mountComponent(
     watcherOptions,
     true /* isRenderWatcher */
   )
+
   hydrating = false
 
   // flush buffer for flush: "pre" watchers queued in setup()
+  //在setup()中为flush: "pre"观察者排队
   const preWatchers = vm._preWatchers
   if (preWatchers) {
     for (let i = 0; i < preWatchers.length; i++) {
@@ -235,7 +248,9 @@ export function mountComponent(
   }
 
   // manually mounted instance, call mounted on self
+  // 手动挂在实例，自身调用 mounted 生命周期函数
   // mounted is called for render-created child components in its inserted hook
+  // 在其插入的钩子中为呈现创建的子组件调用Mounted
   if (vm.$vnode == null) {
     vm._isMounted = true
     callHook(vm, 'mounted')
@@ -398,6 +413,7 @@ export function callHook(
   setContext = true
 ) {
   // #7573 disable dep collection when invoking lifecycle hooks
+  // 调用生命周期挂钩时禁用dep收集
   pushTarget()
   const prevInst = currentInstance
   const prevScope = getCurrentScope()

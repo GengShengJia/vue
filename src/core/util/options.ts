@@ -23,6 +23,9 @@ import type { ComponentOptions } from 'types/options'
  * Option overwriting strategies are functions that handle
  * how to merge a parent option value and a child option
  * value into the final value.
+ * option覆盖策略是处理
+ * 如何合并父选项值和子选项
+ * 值转换为最终值。
  */
 const strats = config.optionMergeStrategies
 
@@ -150,6 +153,8 @@ strats.data = function (
 
 /**
  * Hooks and props are merged as arrays.
+ *
+ * 勾子函数和props被合并成数组
  */
 export function mergeLifecycleHook(
   parentVal: Array<Function> | null,
@@ -165,6 +170,7 @@ export function mergeLifecycleHook(
   return res ? dedupeHooks(res) : res
 }
 
+// 删除重复的勾子函数
 function dedupeHooks(hooks: any) {
   const res: Array<any> = []
   for (let i = 0; i < hooks.length; i++) {
@@ -430,6 +436,11 @@ export function mergeOptions(
   // but only if it is a raw options object that isn't
   // the result of another mergeOptions call.
   // Only merged options has the _base property.
+  /**
+   * 在子选项上应用extends和mixins，
+   * 但仅当它是一个非原始选项对象时另一个mergeOptions调用的结果。
+   * 只有合并后的选项才有_base属性。
+   */
   if (!child._base) {
     if (child.extends) {
       parent = mergeOptions(parent, child.extends, vm)

@@ -14,6 +14,7 @@ export const cleanupDeps = () => {
   pendingCleanupDeps.length = 0
 }
 
+// 这里target实际是Watcher
 /**
  * @internal
  */

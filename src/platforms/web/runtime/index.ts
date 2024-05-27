@@ -19,6 +19,7 @@ import platformComponents from './components/index'
 import type { Component } from 'types/component'
 
 // install platform specific utils
+// 安装平台特定的实用程序
 Vue.config.mustUseProp = mustUseProp
 Vue.config.isReservedTag = isReservedTag
 Vue.config.isReservedAttr = isReservedAttr
@@ -26,22 +27,27 @@ Vue.config.getTagNamespace = getTagNamespace
 Vue.config.isUnknownElement = isUnknownElement
 
 // install platform runtime directives & components
-extend(Vue.options.directives, platformDirectives)
-extend(Vue.options.components, platformComponents)
+// 安装运行时指令&组件
+extend(Vue.options.directives, platformDirectives) // show model
+extend(Vue.options.components, platformComponents) // transition transition-group
 
+// patch函数，翻译为补丁函数，负责将虚拟DOM转为真实DOM vdom => dom
 // install platform patch function
 Vue.prototype.__patch__ = inBrowser ? patch : noop
 
+// $mount的最终目的就是：把虚拟dom 转化为真实的dom，并且追加到宿主元素中去（vdom => dom => append）
 // public mount method
 Vue.prototype.$mount = function (
   el?: string | Element,
   hydrating?: boolean
 ): Component {
   el = el && inBrowser ? query(el) : undefined
+  // 挂载组件
   return mountComponent(this, el, hydrating)
 }
 
 // devtools global hook
+// devtools 全局勾子
 /* istanbul ignore next */
 if (inBrowser) {
   setTimeout(() => {

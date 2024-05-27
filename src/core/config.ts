@@ -36,32 +36,38 @@ export interface Config {
 export default {
   /**
    * Option merge strategies (used in core/util/options)
+   * 选项合并策略
    */
   // $flow-disable-line
   optionMergeStrategies: Object.create(null),
 
   /**
    * Whether to suppress warnings.
+   * 是否抑制警告
    */
   silent: false,
 
   /**
    * Show production mode tip message on boot?
+   * 在启动时显示生产模式提示信息？
    */
   productionTip: __DEV__,
 
   /**
    * Whether to enable devtools
+   * 是否启用devtools
    */
   devtools: __DEV__,
 
   /**
    * Whether to record perf
+   * 是否记录性能
    */
   performance: false,
 
   /**
    * Error handler for watcher errors
+   *
    */
   errorHandler: null,
 

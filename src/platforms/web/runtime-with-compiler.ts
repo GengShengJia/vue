@@ -18,6 +18,7 @@ const idToTemplate = cached(id => {
 })
 
 const mount = Vue.prototype.$mount
+
 Vue.prototype.$mount = function (
   el?: string | Element,
   hydrating?: boolean
@@ -26,6 +27,7 @@ Vue.prototype.$mount = function (
 
   /* istanbul ignore if */
   if (el === document.body || el === document.documentElement) {
+    // 避免挂载到body或html元素上
     __DEV__ &&
       warn(
         `Do not mount Vue to <html> or <body> - mount to normal elements instead.`
@@ -39,6 +41,7 @@ Vue.prototype.$mount = function (
     let template = options.template
     if (template) {
       if (typeof template === 'string') {
+        // 参数是string类型，这里判断是否是ID
         if (template.charAt(0) === '#') {
           template = idToTemplate(template)
           /* istanbul ignore if */
@@ -50,6 +53,7 @@ Vue.prototype.$mount = function (
           }
         }
       } else if (template.nodeType) {
+        // 这里传入的是node
         template = template.innerHTML
       } else {
         if (__DEV__) {
@@ -58,6 +62,7 @@ Vue.prototype.$mount = function (
         return this
       }
     } else if (el) {
+      // 使用传入的el的外层元素
       // @ts-expect-error
       template = getOuterHTML(el)
     }
@@ -66,7 +71,11 @@ Vue.prototype.$mount = function (
       if (__DEV__ && config.performance && mark) {
         mark('compile')
       }
-
+      // 编译template元素为render函数
+      /**
+       * @returns render
+       * @returns staticRenderFns
+       */
       const { render, staticRenderFns } = compileToFunctions(
         template,
         {
@@ -83,6 +92,7 @@ Vue.prototype.$mount = function (
 
       /* istanbul ignore if */
       if (__DEV__ && config.performance && mark) {
+        // 标记编译结束,并测量时长
         mark('compile end')
         measure(`vue ${this._name} compile`, 'compile', 'compile end')
       }

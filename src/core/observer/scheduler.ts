@@ -18,6 +18,7 @@ let index = 0
 
 /**
  * Reset the scheduler's state.
+ * 重置调度器状态
  */
 function resetSchedulerState() {
   index = queue.length = activatedChildren.length = 0
@@ -36,6 +37,7 @@ function resetSchedulerState() {
 export let currentFlushTimestamp = 0
 
 // Async edge case fix requires storing an event listener's attach timestamp.
+// 修复异步边缘情况需要存储事件侦听器的附加时间戳。
 let getNow: () => number = Date.now
 
 // Determine what event timestamp the browser is using. Annoyingly, the
@@ -84,10 +86,18 @@ function flushSchedulerQueue() {
   //    user watchers are created before the render watcher)
   // 3. If a component is destroyed during a parent component's watcher run,
   //    its watchers can be skipped.
+
+  // 刷新前对队列进行排序
+  // 确保以下：
+  // 1.组件从父级更新的子级
+  // 2.组件的user watchers在其render watcher之前运行
+  // 3.如果在父组件的watcher运行期间某个组件被销毁，这些watchers可以被跳过
   queue.sort(sortCompareFn)
 
   // do not cache length because more watchers might be pushed
   // as we run existing watchers
+
+  // 不要缓存长度，因为在运行现有watchers时可能有更多的watchers被push进
   for (index = 0; index < queue.length; index++) {
     watcher = queue[index]
     if (watcher.before) {
@@ -113,12 +123,14 @@ function flushSchedulerQueue() {
   }
 
   // keep copies of post queues before resetting state
+  // 在重置状态之前保留post队列的副本
   const activatedQueue = activatedChildren.slice()
   const updatedQueue = queue.slice()
 
   resetSchedulerState()
 
   // call component updated and activated hooks
+  // 调用组件更新和激活的钩子
   callActivatedHooks(activatedQueue)
   callUpdatedHooks(updatedQueue)
   cleanupDeps()
@@ -163,6 +175,10 @@ function callActivatedHooks(queue) {
  * Push a watcher into the watcher queue.
  * Jobs with duplicate IDs will be skipped unless it's
  * pushed when the queue is being flushed.
+ *
+ * 添加一个watcher到观察者队列
+ * 具有重复id的作业将被跳过，除非它是
+ * 当队列被刷新时推送。
  */
 export function queueWatcher(watcher: Watcher) {
   const id = watcher.id

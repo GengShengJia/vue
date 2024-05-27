@@ -814,13 +814,16 @@ export function createPatchFunction(backend) {
     } else {
       const isRealElement = isDef(oldVnode.nodeType)
       if (!isRealElement && sameVnode(oldVnode, vnode)) {
+        // 不是真实元素 && vnode相同
         // patch existing root node
         patchVnode(oldVnode, vnode, insertedVnodeQueue, null, null, removeOnly)
       } else {
         if (isRealElement) {
           // mounting to a real element
+          // 安装一个真实元素
           // check if this is server-rendered content and if we can perform
           // a successful hydration.
+          // 检查这是否是服务器渲染的内容，以及我们是否可以执行成功的水合。
           if (oldVnode.nodeType === 1 && oldVnode.hasAttribute(SSR_ATTR)) {
             oldVnode.removeAttribute(SSR_ATTR)
             hydrating = true
@@ -841,10 +844,13 @@ export function createPatchFunction(backend) {
           }
           // either not server-rendered, or hydration failed.
           // create an empty node and replace it
+          // 要么没有服务器渲染，要么水合作用失败。
+          // 创建一个空节点并替换它
           oldVnode = emptyNodeAt(oldVnode)
         }
 
         // replacing existing element
+        // 替换已存在的元素
         const oldElm = oldVnode.elm
         const parentElm = nodeOps.parentNode(oldElm)
 
@@ -893,6 +899,7 @@ export function createPatchFunction(backend) {
         }
 
         // destroy old node
+        // 摧毁旧节点
         if (isDef(parentElm)) {
           removeVnodes([oldVnode], 0, 0)
         } else if (isDef(oldVnode.tag)) {
