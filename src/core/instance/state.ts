@@ -195,6 +195,7 @@ function initComputed(vm: Component, computed: Object) {
 
     if (!isSSR) {
       // create internal watcher for the computed property.
+      // 为computed创建内部监视器。
       watchers[key] = new Watcher(
         vm,
         getter || noop,

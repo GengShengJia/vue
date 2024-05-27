@@ -9,19 +9,13 @@ var data = {
       children: [
         {
           name: 'child folder',
-          children: [
-            { name: 'hello' },
-            { name: 'wat' }
-          ]
+          children: [{ name: 'hello' }, { name: 'wat' }]
         },
         { name: 'hello' },
         { name: 'wat' },
         {
           name: 'child folder',
-          children: [
-            { name: 'hello' },
-            { name: 'wat' }
-          ]
+          children: [{ name: 'hello' }, { name: 'wat' }]
         }
       ]
     }
@@ -36,13 +30,13 @@ Vue.component('item', {
   },
   data: function () {
     return {
-      open: false
+      open: false,
+      inputText: 'test'
     }
   },
   computed: {
     isFolder: function () {
-      return this.model.children &&
-        this.model.children.length
+      return this.model.children && this.model.children.length
     }
   },
   methods: {
@@ -73,3 +67,5 @@ var demo = new Vue({
     treeData: data
   }
 })
+
+window.vm = demo

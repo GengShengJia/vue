@@ -21,7 +21,7 @@
       }
     </style>
     <!-- Delete ".min" for console warnings in development -->
-    <script src="../../../dist/vue.min.js"></script>
+    <script src="../../../dist/vue.js"></script>
   </head>
   <body>
 
@@ -42,6 +42,7 @@
             :model="model">
           </item>
           <li class="add" @click="addChild">+</li>
+          <input type="text" v-model="inputText">
         </ul>
       </li>
     </script>

@@ -18,13 +18,13 @@ import {
 } from 'compiler/parser/index'
 import { ASTElement, CompilerOptions, ModuleOptions } from 'types/compiler'
 
+// 处理input动态type问题
 function preTransformNode(el: ASTElement, options: CompilerOptions) {
   if (el.tag === 'input') {
     const map = el.attrsMap
     if (!map['v-model']) {
       return
     }
-
     let typeBinding
     if (map[':type'] || map['v-bind:type']) {
       typeBinding = getBindingAttr(el, 'type')

@@ -81,7 +81,7 @@ export function parseHTML(html, options: HTMLParserOptions) {
     if (!lastTag || !isPlainTextElement(lastTag)) {
       let textEnd = html.indexOf('<')
       if (textEnd === 0) {
-        // Comment:
+        // Comment: 注释
         if (comment.test(html)) {
           const commentEnd = html.indexOf('-->')
 
@@ -98,6 +98,7 @@ export function parseHTML(html, options: HTMLParserOptions) {
           }
         }
 
+        // 条件注释
         // https://en.wikipedia.org/wiki/Conditional_comment#Downlevel-revealed_conditional_comment
         if (conditionalComment.test(html)) {
           const conditionalEnd = html.indexOf(']>')
@@ -108,7 +109,7 @@ export function parseHTML(html, options: HTMLParserOptions) {
           }
         }
 
-        // Doctype:
+        // Doctype: 文档类型
         const doctypeMatch = html.match(doctype)
         if (doctypeMatch) {
           advance(doctypeMatch[0].length)

@@ -45,6 +45,7 @@ const mockDep = {
  * object's property keys into getter/setters that
  * collect dependencies and dispatch updates.
  */
+
 export class Observer {
   dep: Dep
   vmCount: number // number of vms that have this object as root $data
@@ -235,7 +236,7 @@ export function set(
     return
   }
   const ob = (target as any).__ob__
-  if (isArray(target) && isValidArrayIndex(key)) {
+  if (isArray(target) && key) {
     target.length = Math.max(target.length, key)
     target.splice(key, 1, val)
     // when mocking for SSR, array methods are not hijacked

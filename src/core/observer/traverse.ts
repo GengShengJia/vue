@@ -15,7 +15,7 @@ export function traverse(val: any) {
   seenObjects.clear()
   return val
 }
-
+// 递归对象和数组，触发getter以便收集依赖
 function _traverse(val: any, seen: SimpleSet) {
   let i, keys
   const isA = isArray(val)

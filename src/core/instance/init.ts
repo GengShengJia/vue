@@ -29,16 +29,20 @@ export function initMixin(Vue: typeof Component) {
 
     // a flag to mark this as a Vue instance without having to do instanceof
     // check
+    // 标记这是一个vue实例，不需要instanceof检查
     vm._isVue = true
     // avoid instances from being observed
+    // 避免实例被观察到
     vm.__v_skip = true
     // effect scope
+    // 影响范围
     vm._scope = new EffectScope(true /* detached */)
     // #13134 edge case where a child component is manually created during the
     // render of a parent component
     vm._scope.parent = undefined
     vm._scope._vm = true
     // merge options
+    // 合并options
     if (options && options._isComponent) {
       // optimize internal component instantiation
       // since dynamic options merging is pretty slow, and none of the
@@ -58,9 +62,13 @@ export function initMixin(Vue: typeof Component) {
       vm._renderProxy = vm
     }
     // expose real self
+    // 暴露真实的self
     vm._self = vm
+    // 去初始化生命周期
     initLifecycle(vm)
+    // 初始化事件（监听事件）
     initEvents(vm)
+    // 设置了插槽的相关参数和createElement
     initRender(vm)
     callHook(vm, 'beforeCreate', undefined, false /* setContext */)
     initInjections(vm) // resolve injections before data/props
@@ -74,7 +82,6 @@ export function initMixin(Vue: typeof Component) {
       mark(endTag)
       measure(`vue ${vm._name} init`, startTag, endTag)
     }
-
     if (vm.$options.el) {
       vm.$mount(vm.$options.el)
     }
