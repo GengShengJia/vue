@@ -16,3 +16,4 @@ dist
 temp
 .history
 types/v3-generated.d.ts
+.history

@@ -82,6 +82,7 @@ function initProps(vm: Component, propsOptions: Object) {
   }
   for (const key in propsOptions) {
     keys.push(key)
+    // 校验props
     const value = validateProp(key, propsOptions, propsData, vm)
     /* istanbul ignore else */
     if (__DEV__) {
@@ -161,12 +162,14 @@ function initData(vm: Component) {
     }
   }
   // observe data
+  // 观察这些数据
   const ob = observe(data)
   ob && ob.vmCount++
 }
 
 export function getData(data: Function, vm: Component): any {
   // #7573 disable dep collection when invoking data getters
+  // 在调用数据getter时禁用深度收集
   pushTarget()
   try {
     return data.call(vm, vm)
@@ -207,6 +210,8 @@ function initComputed(vm: Component, computed: Object) {
     // component-defined computed properties are already defined on the
     // component prototype. We only need to define computed properties defined
     // at instantiation here.
+    // 组件定义的计算属性已在组件原型上定义
+    // 我们只需要定义在实例化时定义的计算属性。
     if (!(key in vm)) {
       defineComputed(vm, key, userDef)
     } else if (__DEV__) {

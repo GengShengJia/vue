@@ -1,6 +1,7 @@
 import Watcher from 'core/observer/watcher'
 import { warn } from 'core/util'
 
+// 唯一的
 export let activeEffectScope: EffectScope | undefined
 
 export class EffectScope {

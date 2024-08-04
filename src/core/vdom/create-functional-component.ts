@@ -18,6 +18,7 @@ import {
 import type { Component } from 'types/component'
 import type { VNodeData } from 'types/vnode'
 
+// 函数渲染上下文
 export function FunctionalRenderContext(
   data: VNodeData,
   props: Object,

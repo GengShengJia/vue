@@ -6,7 +6,7 @@ import { initAssetRegisters } from './assets'
 import { set, del } from '../observer/index'
 import { ASSET_TYPES } from 'shared/constants'
 import builtInComponents from '../components/index'
-import { observe } from 'core/observer/index'
+import { observe } from 'core/observer/observe'
 
 import {
   warn,

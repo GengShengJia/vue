@@ -47,6 +47,7 @@ export function initMixin(Vue: typeof Component) {
       // optimize internal component instantiation
       // since dynamic options merging is pretty slow, and none of the
       // internal component options needs special treatment.
+      // 初始化内部组件
       initInternalComponent(vm, options as any)
     } else {
       vm.$options = mergeOptions(
@@ -94,6 +95,7 @@ export function initInternalComponent(
 ) {
   const opts = (vm.$options = Object.create((vm.constructor as any).options))
   // doing this because it's faster than dynamic enumeration.
+  // 这么做是因为它比动态枚举更快
   const parentVnode = options._parentVnode
   opts.parent = options.parent
   opts._parentVnode = parentVnode

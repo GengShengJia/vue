@@ -34,6 +34,7 @@ export function setActiveInstance(vm: Component) {
 
 // 这里主要是初始化一些数据
 // 给parent、root赋值
+// 初始化生命周期
 export function initLifecycle(vm: Component) {
   const options = vm.$options
   // locate first non-abstract parent

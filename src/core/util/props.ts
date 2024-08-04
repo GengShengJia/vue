@@ -1,5 +1,6 @@
 import { warn } from './debug'
-import { observe, toggleObserving, shouldObserve } from '../observer/index'
+import { toggleObserving, shouldObserve } from '../observer/index'
+import { observe } from 'core/observer/observe'
 import {
   hasOwn,
   isArray,

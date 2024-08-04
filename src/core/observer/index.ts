@@ -24,6 +24,8 @@ const NO_INITIAL_VALUE = {}
 /**
  * In some cases we may want to disable observation inside a component's
  * update computation.
+ *
+ * 在某些情况下，我们可能希望在组件的更新计算中禁用观察。
  */
 export let shouldObserve: boolean = true
 
@@ -76,6 +78,8 @@ export class Observer {
        * Walk through all properties and convert them into
        * getter/setters. This method should only be called when
        * value type is Object.
+       *
+       * 遍历所有属性并将它们转换为getter/setter。此方法只应在值类型为Object时调用。
        */
       const keys = Object.keys(value)
       for (let i = 0; i < keys.length; i++) {
@@ -101,11 +105,15 @@ export class Observer {
  * Attempt to create an observer instance for a value,
  * returns the new observer if successfully observed,
  * or the existing observer if the value already has one.
+ *
+ * 尝试为一个值创建一个观察者实例，
+ * 如果观察成功，则返回新的观察者，
+ * 如果该值已经有观察者，则返回现有的观察者。
  */
 export function observe(
   value: any,
-  shallow?: boolean,
-  ssrMockReactivity?: boolean
+  shallow?: boolean, // 浅度
+  ssrMockReactivity?: boolean // srr 模拟响应性
 ): Observer | void {
   if (value && hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {
     return value.__ob__
@@ -113,10 +121,15 @@ export function observe(
   if (
     shouldObserve &&
     (ssrMockReactivity || !isServerRendering()) &&
+    // 观察的目标是数组或者是普通对象
     (isArray(value) || isPlainObject(value)) &&
+    // 目标是可扩展的对象
     Object.isExtensible(value) &&
+    // 不是需要跳过的实例
     !value.__v_skip /* ReactiveFlags.SKIP */ &&
+    // 不是ref
     !isRef(value) &&
+    // 不是虚拟dom
     !(value instanceof VNode)
   ) {
     return new Observer(value, shallow, ssrMockReactivity)
@@ -125,6 +138,19 @@ export function observe(
 
 /**
  * Define a reactive property on an Object.
+ * 在对象上定义一个响应属性
+ */
+
+/**
+ *
+ * @param obj 目标对象
+ * @param key 目标属性名
+ * @param val 目标属性值
+ * @param customSetter 自定义setter
+ * @param shallow 浅度
+ * @param mock
+ * @param observeEvenIfShallow 观察，即使是浅度的
+ * @returns
  */
 export function defineReactive(
   obj: object,
@@ -135,13 +161,16 @@ export function defineReactive(
   mock?: boolean,
   observeEvenIfShallow = false
 ) {
+  // 收集器
   const dep = new Dep()
 
+  // 获取目标对象的描述符，对象不可配置则return
   const property = Object.getOwnPropertyDescriptor(obj, key)
   if (property && property.configurable === false) {
     return
   }
 
+  // 预定义的函数
   // cater for pre-defined getter/setters
   const getter = property && property.get
   const setter = property && property.set
@@ -151,12 +180,14 @@ export function defineReactive(
   ) {
     val = obj[key]
   }
-
+  // 给对象的属性的值增加观察
   let childOb = shallow ? val && val.__ob__ : observe(val, false, mock)
+  // 给对象的属性key设置getter/setter
   Object.defineProperty(obj, key, {
     enumerable: true,
     configurable: true,
     get: function reactiveGetter() {
+      // 如果目标对象有getter先调用getter获取属性key的值，没有直接返回函数传入的val
       const value = getter ? getter.call(obj) : val
       if (Dep.target) {
         if (__DEV__) {
@@ -166,6 +197,7 @@ export function defineReactive(
             key
           })
         } else {
+          // 触发依赖收集
           dep.depend()
         }
         if (childOb) {
@@ -206,6 +238,7 @@ export function defineReactive(
           oldValue: value
         })
       } else {
+        // 触发收集器通知
         dep.notify()
       }
     }

@@ -72,6 +72,7 @@ const sortCompareFn = (a: Watcher, b: Watcher): number => {
 
 /**
  * Flush both queues and run the watchers.
+ * 刷新两个队列并运行监视器。
  */
 function flushSchedulerQueue() {
   currentFlushTimestamp = getNow()
@@ -89,7 +90,7 @@ function flushSchedulerQueue() {
 
   // 刷新前对队列进行排序
   // 确保以下：
-  // 1.组件从父级更新的子级
+  // 1.组件从父级更新到子级
   // 2.组件的user watchers在其render watcher之前运行
   // 3.如果在父组件的watcher运行期间某个组件被销毁，这些watchers可以被跳过
   queue.sort(sortCompareFn)
@@ -130,7 +131,7 @@ function flushSchedulerQueue() {
   resetSchedulerState()
 
   // call component updated and activated hooks
-  // 调用组件更新和激活的钩子
+  // 调用组件 updated 和 activated 的钩子
   callActivatedHooks(activatedQueue)
   callUpdatedHooks(updatedQueue)
   cleanupDeps()
@@ -196,6 +197,8 @@ export function queueWatcher(watcher: Watcher) {
   } else {
     // if already flushing, splice the watcher based on its id
     // if already past its id, it will be run next immediately.
+    // 如果已经刷新，则根据其id拼接观察者
+    // 如果已经超过它的id，它将立即运行下一个。
     let i = queue.length - 1
     while (i > index && queue[i].id > watcher.id) {
       i--

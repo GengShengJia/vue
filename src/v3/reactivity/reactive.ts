@@ -1,4 +1,5 @@
-import { observe, Observer } from 'core/observer'
+import { Observer } from 'core/observer'
+import { observe } from 'core/observer/observe'
 import {
   def,
   isArray,

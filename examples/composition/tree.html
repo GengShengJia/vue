@@ -1,4 +1,4 @@
-<script src="../../dist/vue.min.js"></script>
+<script src="../../dist/vue.js"></script>
 
 <!-- item template -->
 <script type="text/x-template" id="item-template">
@@ -32,7 +32,6 @@
     },
     setup(props) {
       Vue.options.test = 'test'
-      console.log(Vue.options)
       const state = reactive({
         open: false,
         isFolder: computed(() => {
@@ -97,7 +96,7 @@
     ]
   }
 
-  new Vue({
+  window.vm = new Vue({
     components: {
       TreeItem
     },
@@ -112,12 +111,15 @@
     font-family: Menlo, Consolas, monospace;
     color: #444;
   }
+
   .item {
     cursor: pointer;
   }
+
   .bold {
     font-weight: bold;
   }
+
   ul {
     padding-left: 1em;
     line-height: 1.5em;

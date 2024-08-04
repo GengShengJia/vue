@@ -36,6 +36,8 @@ export interface WatcherOptions extends DebuggerOptions {
  * A watcher parses an expression, collects dependencies,
  * and fires callback when the expression value changes.
  * This is used for both the $watch() api and directives.
+ * 观察者解析表达式，收集依赖项，并在表达式值更改时触发回调。
+ * 这用于 $watch() api和指令。
  * @internal
  */
 export default class Watcher implements DepTarget {
@@ -71,10 +73,12 @@ export default class Watcher implements DepTarget {
     options?: WatcherOptions | null,
     isRenderWatcher?: boolean
   ) {
+    // 记录影响范围
     recordEffectScope(
       this,
       // if the active effect scope is manually created (not a component scope),
       // prioritize it
+      // 如果活动效果范围是手动创建的 (不是组件范围)，则优先考虑它
       activeEffectScope && !activeEffectScope._vm
         ? activeEffectScope
         : vm
@@ -129,6 +133,7 @@ export default class Watcher implements DepTarget {
 
   /**
    * Evaluate the getter, and re-collect dependencies.
+   * 评估getter，并重新收集依赖项。
    */
   get() {
     pushTarget(this)
@@ -200,6 +205,7 @@ export default class Watcher implements DepTarget {
     } else if (this.sync) {
       this.run()
     } else {
+      // 把watcher加入到队列中
       queueWatcher(this)
     }
   }
@@ -216,6 +222,8 @@ export default class Watcher implements DepTarget {
         // Deep watchers and watchers on Object/Arrays should fire even
         // when the value is the same, because the value may
         // have mutated.
+        // 即使值相同，对象/数组上的深度观察者和观察者也应触发
+        // 因为该值可能已发生突变。
         isObject(value) ||
         this.deep
       ) {
@@ -240,7 +248,9 @@ export default class Watcher implements DepTarget {
 
   /**
    * Evaluate the value of the watcher.
+   * 评估观察者的value
    * This only gets called for lazy watchers.
+   * 只在lazy watchers中调用
    */
   evaluate() {
     this.value = this.get()
@@ -249,6 +259,7 @@ export default class Watcher implements DepTarget {
 
   /**
    * Depend on all deps collected by this watcher.
+   * 依赖于此观察者收集的所有deps。
    */
   depend() {
     let i = this.deps.length
@@ -259,6 +270,7 @@ export default class Watcher implements DepTarget {
 
   /**
    * Remove self from all dependencies' subscriber list.
+   * 从所有依赖项的订户列表中删除self
    */
   teardown() {
     if (this.vm && !this.vm._isBeingDestroyed) {
