@@ -90,7 +90,7 @@ function flushSchedulerQueue() {
 
   // 刷新前对队列进行排序
   // 确保以下：
-  // 1.组件从父级更新到子级
+  // 1.组件从父级更新的子级
   // 2.组件的user watchers在其render watcher之前运行
   // 3.如果在父组件的watcher运行期间某个组件被销毁，这些watchers可以被跳过
   queue.sort(sortCompareFn)
@@ -131,7 +131,7 @@ function flushSchedulerQueue() {
   resetSchedulerState()
 
   // call component updated and activated hooks
-  // 调用组件 updated 和 activated 的钩子
+  // 调用组件更新和激活的钩子
   callActivatedHooks(activatedQueue)
   callUpdatedHooks(updatedQueue)
   cleanupDeps()

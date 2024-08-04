@@ -32,6 +32,7 @@
     },
     setup(props) {
       Vue.options.test = 'test'
+      console.log(Vue.options)
       const state = reactive({
         open: false,
         isFolder: computed(() => {
